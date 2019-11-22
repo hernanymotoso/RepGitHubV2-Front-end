@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { FaGithubAlt, FaPlus } from 'react-icons/fa';
+import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 
-import { Container, Form, SubmitButton } from './styles';
+import Container from '../../components/Container';
+import { Form, SubmitButton } from './styles';
 
 export default class Main extends Component {
   	state = {
   		newRepo: '',
+  		loading: false,
   	}
 
 
@@ -15,8 +17,20 @@ export default class Main extends Component {
   		});
   	}
 
+  	handleFormSubmit = e => {
+  		e.preventDefault();
+  		this.setState({
+  			loading: true,
+  		});
+  		console.log(this.state.newRepo);
+
+  		this.setState({
+  			loading: false,
+  		});
+  	}
+
 	render () {
-		const { newRepo } = this.state;
+		const { newRepo, loading } = this.state;
 
 		return (
   			<Container>
@@ -25,7 +39,7 @@ export default class Main extends Component {
   					Repositórios
   				</h1>
 
-  				<Form>
+  				<Form onSubmit={this.handleFormSubmit}>
   					<input
   						type="text"
   						placeholder="Adicionar repositório"
@@ -34,7 +48,7 @@ export default class Main extends Component {
   					/>
 
   					<SubmitButton>
-  						<FaPlus color="#FFF" size={14} />
+  						{ loading ? <FaSpinner color="#FFF" size={14} /> : <FaPlus color="#FFF" size={14} /> }	  						
   					</SubmitButton>
 
   				</Form>
